@@ -13,14 +13,12 @@ class UserController {
         })
             .then(ticket => {
                 payloadData = ticket.getPayload()
-                console.log(payloadData, '^^ payloadData')
                 return User.findOne({email: payloadData.email})
             })
             .then(userData => {
-                console.log(userData, '^^ userData')
                 if(!userData) {
                     return User.create({
-                        email: userData.email,
+                        email: payloadData.email,
                         googleSignIn: true
                     })
                 }
