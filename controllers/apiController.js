@@ -80,14 +80,13 @@ module.exports = {
               uv: value2.uv
             }
 
-            const weeklyResults = {}
-            // let counter = 0
+            let weeklyResults = {}
             for (let i = 0; i < value4.length; i++) {
               weeklyResults.day[i] = value4[i]
             }
             console.log(weeklyResults)
 
-            res.send(weeklyResults)
+            res.send(currentResults)
           })
           .catch(err => res.status(500).json(err))
       })
