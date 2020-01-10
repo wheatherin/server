@@ -60,8 +60,7 @@ module.exports = {
             const value1 = values[0].data
             const value2 = values[1].data.data[0]
             const value3 = values[2].data.currently
-            const value4 = values[3].data.daily.data
-            // console.log(value4)
+            const daily = values[3].data.daily.data
             const currentResults = {
               icon: value3.icon,
               city: value2.city_name,
@@ -80,29 +79,26 @@ module.exports = {
               uv: value2.uv
             }
 
-            let weeklyResults = {}
-            for (let i = 0; i < value4.length; i++) {
-              weeklyResults.day[i] = value4[i]
+            let weeklyResults = []
+            for (let i = 0; i < daily.length - 1; i++) {
+              const time = daily[i].time * 1000
+              const dailyWeather = {
+                date: new Date(time).toDateString(),
+                icon: daily[i].icon,
+                weather: daily[i].precipType,
+                min_temp: daily[i].temperatureMin,
+                max_temp: daily[i].temperatureMax,
+                humidity: daily[i].humidity,
+                windSpeed: daily[i].windSpeed,
+                clouds: daily[i].cloudCover,
+                uvIndex: daily[i].uvIndex
+              }
+              weeklyResults.push(dailyWeather)
             }
-            console.log(weeklyResults)
-
-            res.send(currentResults)
+            res.status(200).json({ currentResults, weeklyResults })
           })
           .catch(err => res.status(500).json(err))
       })
       .catch(err => res.status(404).json({ msg: "Not Found" }))
-  },
-
-  // weeklyWeather(req, res) {
-  //   currentWeather(req, res) {
-  //     const city = req.params.city
-  //     locIq(locIqKey, city)
-  //       .then(data => {
-  //         const lat = data.data[0].lat
-  //         const lon = data.data[0].lon
-  //         darkSky(ds, lat, lon,)
-  //       })
-  //       .catch(err => res.send(err))
-  //   }
-  // }
+  }
 }
