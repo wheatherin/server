@@ -28,7 +28,8 @@ class UserController {
             })
             .then(user => {
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET)
-                res.status(200).json({token})
+                const name = payloadData.given_name
+                res.status(200).json({token, name})
             })
             .catch(err => {
                 console.log(err)

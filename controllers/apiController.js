@@ -97,8 +97,16 @@ module.exports = {
             }
             res.status(200).json({ currentResults, weeklyResults })
           })
-          .catch(err => res.status(500).json(err))
+          .catch(err => {
+            console.log(err)
+            res.status(404).json({ msg: "Not Found" })
+            
+          })
       })
-      .catch(err => res.status(404).json({ msg: "Not Found" }))
+      .catch(err => {
+        console.log(err)
+        res.status(404).json({ msg: "Not Found" })
+        
+      })
   }
 }
