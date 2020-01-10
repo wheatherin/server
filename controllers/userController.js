@@ -28,11 +28,52 @@ class UserController {
             })
             .then(user => {
                 const token = jwt.sign({ _id: user._id }, process.env.SECRET)
-                res.status(200).json({token})
+                const name = payloadData.given_name;
+                res.status(200).json({token, name})
             })
             .catch(err => {
                 console.log(err)
                 res.status(500).json(err)
+            })
+    }
+
+    static register(req, res) {
+        const { email, password } = req.body
+        User.findOne({ email: email })
+            .then(found => {
+                if (!found) return User.create({ email, password })
+                else res.status(409).json({ msg: 'Email address is already used, please use another' })
+            })
+            .then(user => {
+                const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+                console.log(token)
+                res.status(200).json({ token })
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(500).json(err)
+            })
+    }
+
+    static login(req, res) {
+        const { email, password } = req.body
+        User.findOne({ email: email })
+            .then(user => {
+                if (!user) res.status(409).json({ msg: 'Email isn\'t registered' })
+                else {
+                    if (user.password === password) {
+                        const token = jwt.sign({ _id: user._id }, process.env.SECRET)
+                        console.log(token)
+                        res.status(200).json({ token })
+                    } else {
+                        console.log(err)
+                        res.status(403).json({ msg: 'Password invalid' })
+                    }
+                }
+            })
+            .catch(err => {
+                console.log(err)
+                res.status(404).json({ msg: 'Email address isn\'t registered' })
             })
     }
 }
