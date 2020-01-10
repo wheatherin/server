@@ -7,7 +7,7 @@ const userRouter = require('../routes/userRouter')
 const apiRouter = require('./apiRouter')
 
 
-// router.use('/user', userRouter)
+router.use('/user', userRouter)
 router.use('/api', apiRouter)
 
 

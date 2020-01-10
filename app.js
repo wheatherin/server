@@ -11,9 +11,9 @@ var cors = require('cors')
 
 app.use(cors())
 
-// const connectdb = require('./config/db')
+const connectdb = require('./config/db')
 
-// connectdb();
+connectdb();
 
 app.use('/', router)
 
