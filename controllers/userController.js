@@ -20,7 +20,7 @@ class UserController {
                 console.log(userData, '^^ userData')
                 if(!userData) {
                     return User.create({
-                        email: userData.email,
+                        email: payloadData.email,
                         googleSignIn: true
                     })
                 }
